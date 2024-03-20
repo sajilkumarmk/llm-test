@@ -1,5 +1,7 @@
 import { SequelizeModule, SequelizeModuleOptions } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
+import { Collections } from 'src/model/collections.model';
+import { Documents } from 'src/model/documents.model';
 
 const sequelize: SequelizeModuleOptions = {
   host: process.env.POSTGRES_HOST,
@@ -13,6 +15,7 @@ const sequelize: SequelizeModuleOptions = {
   dialectOptions: {
     useUTC: true,
   },
+  models: [Collections, Documents]
 };
 
 @Module({
