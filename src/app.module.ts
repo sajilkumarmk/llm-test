@@ -15,6 +15,6 @@ import { DocumentModule } from './document/document.module';
     DocumentModule
   ],
   controllers: [AppController],
-  providers: [AppService, DocumentService],
+  providers: [AppService],
 })
 export class AppModule {}
