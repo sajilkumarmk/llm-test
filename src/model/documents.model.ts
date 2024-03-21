@@ -23,7 +23,7 @@ export class Documents extends Base<Documents> {
     collection_id: string;
 
     @AllowNull(false)
-    @Column
+    @Column(DataType.TEXT)
     text: string;
 
     @AllowNull(false)

@@ -63,9 +63,9 @@ export class DocumentService {
                     text: doc.text,
                     similarity: this.calculateCosineSimilarity(embed.embeddings[0], doc.embedding),
                 }))
-                .filter((doc) => doc.similarity > 0.5)
+                // .filter((doc) => doc.similarity > 0.5)
                 .sort((a, b) => b.similarity - a.similarity)
-                .slice(0, 10); // Get top 10 most similar documents
+                .slice(0, 10);
 
             return mostSimilar;
         } catch (error) {
