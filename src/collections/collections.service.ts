@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel as InjectSequelizeModel } from '@nestjs/sequelize';
 import { Collections } from "src/model/collections.model";
+import { CollectionCreateDto } from "./input/collection.dto";
 
 @Injectable()
 export class CollectionsService {
@@ -10,10 +11,14 @@ export class CollectionsService {
     ) { }
 
     async createCollection(
-        collectionsData: Partial<Collections>,
+        collectionCreateDto: CollectionCreateDto,
     ): Promise<Collections> {
-        const collection = await this.collectionModel.create(collectionsData);
-        return collection;
+        try {
+            const collection = await this.collectionModel.create(collectionCreateDto);
+            return collection;
+        } catch (error) {
+            throw new HttpException( error.message, error.status || HttpStatus.BAD_REQUEST);
+        }
     }
 
     async getCollection(

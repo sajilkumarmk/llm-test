@@ -12,9 +12,7 @@ const sequelize: SequelizeModuleOptions = {
   port: Number(process.env.POSTGRES_PORT),
   autoLoadModels: true,
   synchronize: true,
-  dialectOptions: {
-    useUTC: true,
-  },
+  dialectOptions: { useUTC: true },
   models: [Collections, Documents]
 };
 
