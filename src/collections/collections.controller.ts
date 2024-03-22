@@ -1,14 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post } from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
 import { Collections } from "src/model/collections.model";
+import { CollectionCreateDto } from "./input/collection.dto";
 
 @Controller('collections')
 export class CollectionsController {
   constructor(private readonly collectionsService: CollectionsService) { }
 
-  @Post('/collection')
-  async createCollection(@Body() collections: Collections): Promise<Collections> {
-    return await this.collectionsService.createCollection(collections);
+  @Post('/create')
+  async createCollection(@Body() body: CollectionCreateDto): Promise<Collections> {
+    try {
+      return await this.collectionsService.createCollection(body);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 
   @Get(':id')

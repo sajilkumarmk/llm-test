@@ -10,13 +10,9 @@ export class DocumentService {
         private readonly documentModel: typeof Documents,
     ) { }
 
-    private cohere = new CohereClient({
-        token: "4ukQm1IBTeICvRBvgjSCaIG947nAlpDHSdeqv0fc",
-    });
+    private cohere = new CohereClient({ token: process.env.COHERE_APIKEY });
 
-    async createDocument(
-        DocumentsData: Partial<Documents>,
-    ): Promise<any> {
+    async createDocument(DocumentsData: Partial<Documents>): Promise<any> {
         try {
             const text = DocumentsData?.text;
             console.log("text : ", text);
@@ -38,9 +34,7 @@ export class DocumentService {
         }
     }
 
-    async queryDocument(
-        text: any
-    ): Promise<any> {
+    async queryDocument(text: any): Promise<any> {
         try {
             console.log("text : ", text.text);
             console.log("collection_id : ", text.collection_id);
@@ -66,7 +60,6 @@ export class DocumentService {
                 // .filter((doc) => doc.similarity > 0.5)
                 .sort((a, b) => b.similarity - a.similarity)
                 .slice(0, 10);
-
             return mostSimilar;
         } catch (error) {
             console.error("Error:", error);
@@ -75,20 +68,20 @@ export class DocumentService {
     }
 
     calculateCosineSimilarity(vec1: any[], vec2: any[]): number {
-      
+
         if (vec1.length !== vec2.length) {
-          throw new Error("Vectors must have the same length");
+            throw new Error("Vectors must have the same length");
         }
-      
+
         const dotProduct = vec1.reduce((sum, value, index) => sum + (value * vec2[index]), 0);
         const magnitude1 = Math.sqrt(vec1.reduce((sum, value) => sum + (value * value), 0));
         const magnitude2 = Math.sqrt(vec2.reduce((sum, value) => sum + (value * value), 0));
-      
+
         if (magnitude1 === 0 || magnitude2 === 0) {
-          // Avoid division by zero
-          return 0;
+            // Avoid division by zero
+            return 0;
         }
-      
+
         return dotProduct / (magnitude1 * magnitude2);
-      }
+    }
 }

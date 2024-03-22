@@ -6,7 +6,7 @@ import { Documents } from 'src/model/documents.model';
 export class DocumentController {
     constructor(private readonly collectionsService: DocumentService) { }
 
-    @Post('/document')
+    @Post('/create')
     async createDocument(@Body() documents: Documents): Promise<any> {
         return await this.collectionsService.createDocument(documents);
     }
